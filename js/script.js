@@ -25,10 +25,11 @@ $(function(){
 
       console.log("Adding \"" + item + "\" to the list...");
 
-      $("<li>" + item + " <a href='#' onclick='javascript:removeFromList(" + listSize++ + ")'>delete</a></li>").appendTo("#list");
+      $("<li>" + item + " <div class='deletebutton' href='#' onclick='javascript:removeFromList(" + listSize++ + ")'>delete</div></li>").appendTo("#list");
 
       $("#new_item").val("");
 
+      $("#new_item").blur();
     }
   })
 
@@ -67,6 +68,10 @@ function populateList() {
     $("<li class='emptylist'>You have no items (add some)</li>").appendTo("#list");
 }
 
+
+
+
+
 /* 
   Functions for the text input.
   Reworked from my own websites (http://movieaggregator.com and http://procosmicxy.info)
@@ -90,3 +95,4 @@ function clickrecall(thisfield, defaulttext, color) {
     thisfield.style.color = "#" + color;
   }
 }
+

@@ -75,6 +75,27 @@ header {
   border-top: none;
   min-height: 50px;
 }
+#list {
+  margin: 0.5em 0;
+  list-style: none;
+  padding: 0;
+}
+#list li {
+  padding: 10px 0;
+  color: #444;
+  border-bottom: 1px solid #eee;
+}
+#list li:last-child {
+  border: 0;
+}
+.deletebutton {
+  display: inline;
+  float: right;
+  color: #999;
+}
+.emptylist {
+  color: #666 !important;
+}
 
 /* add item */
 #add-item-container #new_item{
