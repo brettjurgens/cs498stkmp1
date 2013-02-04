@@ -6,9 +6,7 @@ $(function(){
 
   debug = list;
 
-  $.each(list, function(i,s){
-    $("<li>" + s + " <a href='#' onclick='javascript:removeFromList(" + i + ")'>delete</a></li>").appendTo("#list");
-  });
+  populateList();
 
   $("#new_item").keypress(function(e){
     $("#new_item").val();
@@ -54,4 +52,15 @@ function removeFromList(i) {
     $('#list').empty();
     populateList();
   }
+}
+
+function populateList() {
+  var list = JSON.parse(localStorage.getItem("list"));
+  listSize = list.length;
+  if(listSize > 0)
+    $.each(list, function(i,s){
+      $("<li>" + s + " <div class='deletebutton' href='#' onclick='javascript:removeFromList(" + i + ")'>delete</div></li>").appendTo("#list");
+    });
+  else
+    $("<li class='emptylist'>You have no items (add some)</li>").appendTo("#list");
 }
