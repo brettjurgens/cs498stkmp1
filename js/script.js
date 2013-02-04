@@ -66,3 +66,27 @@ function populateList() {
   else
     $("<li class='emptylist'>You have no items (add some)</li>").appendTo("#list");
 }
+
+/* 
+  Functions for the text input.
+  Reworked from my own websites (http://movieaggregator.com and http://procosmicxy.info)
+  I release it in the public domain, so no licensing issues?
+*/
+function clickclear(thisfield, defaulttext, color) {
+  if (thisfield.value == defaulttext) {
+    thisfield.value = "";
+    if (!color) {
+      color = "212121";
+    }
+    thisfield.style.color = "#" + color;
+  }
+}
+function clickrecall(thisfield, defaulttext, color) {
+  if (thisfield.value == "") {
+    thisfield.value = defaulttext;
+    if (!color) {
+      color = "aaaaaa";
+    }
+    thisfield.style.color = "#" + color;
+  }
+}
