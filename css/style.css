@@ -1,0 +1,95 @@
+/********************
+  CS498 MP1
+  brett jurgens
+ ********************/
+
+* {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+/* Header stuff */
+header {
+  margin: 0 auto;
+  text-align: center;
+  font-size:3em;
+  position: fixed;
+  height: 2.4em;
+  width: 100%;
+  z-index: 999;
+  padding-top: .5em;
+  top: 0;
+  background-color: white;
+}
+
+#whiteback {
+  height: 60px;
+  width: 200px;
+  background-color: white;
+  margin: 0 auto;
+  position: absolute;
+  top: 0em;
+  z-index: 900;
+  left: 50%;
+  margin-left: -100px;
+}
+
+#logo {
+  z-index: 1000;
+  position: fixed;
+  width: 100%;
+  color: #666;
+}
+
+/* List structure / notifications */
+#list-top {
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  border-bottom: none;
+  width: 610px;
+  height: 1.8em;
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+  position: fixed;
+  top: 1.2em;
+  left: 50%;
+  margin-left: -306px;
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 3px 6px -2px #ddd;
+}
+#notifications {
+  height: 1.5em;
+  position: fixed;
+  z-index: 1000;
+  top: 20px;
+  right: 40px;
+}
+#listcontainer {
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  padding: 1px 20px 0;
+  width: 570px;
+  margin: 9em auto 0;
+  border-top-right-radius: 0px;
+  border-top-left-radius: 0px;
+  border-top: none;
+  min-height: 50px;
+}
+
+/* add item */
+#add-item-container #new_item{
+  width: 400px;
+  border: 1px solid #ccc;
+  height: 30px;
+  padding: 10px;
+  font-size: 16px;
+}
+
+#add-item-container {
+  width: 400px;
+  margin-left: -200px;
+  position:fixed;
+  left: 50%;
+  z-index: 1000;
+  top: 5.5em;
+}
