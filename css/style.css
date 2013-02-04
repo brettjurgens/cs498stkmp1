@@ -21,22 +21,13 @@ header {
   background-color: white;
 }
 
-#whiteback {
-  height: 60px;
-  width: 200px;
-  background-color: white;
-  margin: 0 auto;
-  position: absolute;
-  top: 0em;
-  z-index: 900;
-  left: 50%;
-  margin-left: -100px;
-}
-
 #logo {
   z-index: 1000;
   position: fixed;
-  width: 100%;
+  width: 200px;
+  left: 50%;
+  margin-left:-100px;
+  background-color: white;
   color: #666;
 }
 
