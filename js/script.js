@@ -33,7 +33,7 @@ $(function(){
     }
   })
 
-  $('.redr').animate({color: '#f7931d'}, 1000);
+  $('.oranger').animate({color: '#f7931d'}, 1000);
 
 })
 
