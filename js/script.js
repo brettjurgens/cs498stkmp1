@@ -55,7 +55,7 @@ function removeFromList(i) {
     localStorage.setItem("list", JSON.stringify(list));
     console.log("Removed \"" + removed + "\" from the list");
     var uniqueishId = Date.now();
-    $('<div id=' + uniqueishId + '>Item deleted</div>').hide().appendTo('#notifications').fadeIn();
+    $('<div id=' + uniqueishId + '>item deleted</div>').hide().appendTo('#notifications').fadeIn();
     setTimeout(
       function(){
         $('#' + uniqueishId).fadeOut();
@@ -74,7 +74,7 @@ function populateList() {
       $("<li>" + s + " <div class='deletebutton' href='#' onclick='javascript:removeFromList(" + i + ")'>delete</div></li>").appendTo("#list");
     });
   else
-    $("<li class='emptylist'>You have no items (add some)</li>").appendTo("#list");
+    $("<li class='emptylist'>You have no items (you should probably add some)</li>").appendTo("#list");
 }
 
 
