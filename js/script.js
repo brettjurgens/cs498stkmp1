@@ -13,7 +13,7 @@ $(function(){
     if(e.which === 13 && $("#new_item").val().length > 0) {
       if(listSize === 0)
         $("#list").empty();
-
+      indicateStatus();
       var array = [];
       var jsonparse = JSON.parse(localStorage.getItem("list"));
       if( jsonparse != null)
@@ -55,6 +55,7 @@ function removeFromList(i) {
     $('#list').empty();
     populateList();
   }
+  indicateStatus();
 }
 
 function populateList() {
@@ -69,7 +70,10 @@ function populateList() {
 }
 
 
-
+function indicateStatus() {
+  $('.oranger').animate({color: '#666'}, 50);
+  $('.oranger').animate({color: '#f7931d'}, 100);
+}
 
 
 /* 
