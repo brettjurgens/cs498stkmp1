@@ -32,6 +32,8 @@ $(function(){
     }
   })
 
+  $('.redr').animate({color: '#f7931d'}, 1000);
+
 })
 
 function removeFromList(i) {
