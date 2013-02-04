@@ -2,6 +2,10 @@ var listSize;
 
 $(function(){
 
+  $(document).bind('keyup', 'n', function() {
+    $("#new_item").focus();
+  });
+
   var list = JSON.parse(localStorage.getItem("list"));
 
   debug = list;
