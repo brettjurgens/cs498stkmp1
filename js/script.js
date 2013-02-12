@@ -97,13 +97,13 @@ function loadLists() {
   listsSize = lists.lists.length;
   if(listsSize > 0)
     $.each(lists.lists, function(i,s) {
-      $("<li>"
+      $("<a  href='#' onclick='javascript:goToList(" + i + ")'><li>"
         + this.name
         + " <div class='listbuttons'>"
         + " <a href='#' onclick='javascript:removeList(" + i + ")'>delete</a>"
         + " <div class='spacer'></div>"
         + " <a  href='#' onclick='javascript:goToList(" + i + ")'>></a>"
-        + "</div></li>").appendTo("#list");
+        + "</div></li></a>").appendTo("#list");
     });
   else
     $("<li class='emptylist'>You have no lists (you should probably add some)</li>").appendTo("#list");
@@ -202,13 +202,13 @@ $(function(){
 
       $(".emptylist").remove();
 
-      $("<li>"
+      $("<a href='#' onclick='javascript:goToList(" + listsSize++ + ")'><li>"
         + list
         + " <div class='listbuttons'>"
         + " <a href='#' onclick='javascript:removeList(" + listsSize + ")'>delete</a>"
         + " <div class='spacer'></div>"
-        + " <a  href='#' onclick='javascript:goToList(" + listsSize++ + ")'>></a>"
-        + "</div></li>").appendTo("#list");
+        + " <a href='#' onclick='javascript:goToList(" + listsSize++ + ")'>></a>"
+        + "</div></li></a>").appendTo("#list");
 
       addList(list);
 
