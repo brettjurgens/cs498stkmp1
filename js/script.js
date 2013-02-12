@@ -42,10 +42,6 @@ $(function(){
     this.blur();
   });
 
-  var list = JSON.parse(localStorage.getItem("list"));
-
-  debug = list;
-
   populateList();
 
   $("#new_item").keypress(function(e){
