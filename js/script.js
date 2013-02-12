@@ -32,6 +32,52 @@ function Item(name, deadline) {
   // if deadline is specified, use it. otherwise it should be null.
   this.deadline = (typeof deadline === "undefined") ? null : deadline;
 }
+Item.prototype.toggleDone = function() {
+  this.done = !this.done;
+}
+
+
+function removeFromList(i) {
+  var list = JSON.parse(localStorage.getItem("list"));
+  if(listSize - 1 < i || i < 0)
+    console.log("yo dood, that item doesn't exist...");
+  else {
+    listSize--;
+    var removed = list.splice(i, 1);
+    localStorage.setItem("list", JSON.stringify(list));
+    console.log("Removed \"" + removed + "\" from the list");
+    var uniqueishId = Date.now();
+    $('<div id=' + uniqueishId + '>item deleted</div>').hide().appendTo('#notifications').fadeIn();
+    setTimeout(
+      function(){
+        $('#' + uniqueishId).fadeOut();
+      }, 2000);
+    $('#list').empty();
+    populateList();
+  }
+  indicateStatus();
+}
+
+function getListMgr() {
+  return JSON.parse(localStorage.getItem("lists"));
+}
+
+function loadLists() {
+  var lists = localStorage.getItem("lists");
+  if(lists === null) {
+    var listMgr = new ListMgr();
+    localStorage.setItem("lists", JSON.stringify(listMgr));
+
+    // grab it again
+    lists = localStorage.getItem("lists");
+  }
+  lists = JSON.parse(lists);
+  var size = lists.lists.length;
+  if(size > 0)
+    $.each(lists, function(i,s) {
+      $("<li>" + s + " <div class='deletebutton' href='#' onclick='javascript:removeList(" + i + ")'>delete</div></li>").appendTo("#list");
+    });
+};
 
 function removeList(i) {
   var listMgr = getListMgr();
