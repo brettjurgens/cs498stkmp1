@@ -1,30 +1,31 @@
 var listSize;
 
-function listMgr() {
+function ListMgr() {
   this.lists = [];
 };
 
-listMgr.prototype.addList = function(list) {
+ListMgr.prototype.addList = function(list) {
   this.lists.push(list);
 };
 
-listMgr.prototype.removeList = function(index) {
+ListMgr.prototype.removeList = function(index) {
   this.lists.splice(index, 1);
 };
 
-function list() {
+function List(name) {
+  this.name = name;
   this.items = [];
 };
 
-list.prototype.addItem = function(item) {
+List.prototype.addItem = function(item) {
   this.items.push(item)
 };
 
-list.prototype.removeItem = function(index) {
+List.prototype.removeItem = function(index) {
   this.items.splice(index, 1);
 };
 
-function item(name, deadline) {
+function Item(name, deadline) {
   this.name = name;
   this.done = false;
 
