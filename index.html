@@ -17,8 +17,11 @@
   <div id="notifications"></div>
 
   <section id="listcontainer">
+    <div id="add-list-container">
+      <input id="new_list" class="add" type="text" autocomplete="off" style="color: #aaa" value="Add a list..." onfocus="clickclear(this, 'Add a list...')" onblur="clickrecall(this,'Add a list...')"></input>
+    </div>
     <div id="add-item-container">
-      <input id="new_item" type="text" autocomplete="off" style="color: #aaa" value="Add an item..." onfocus="clickclear(this, 'Add an item...')" onblur="clickrecall(this,'Add an item...')"></input>
+      <input id="new_item" class="add" type="text" autocomplete="off" style="color: #aaa" value="Add an item..." onfocus="clickclear(this, 'Add an item...')" onblur="clickrecall(this,'Add an item...')"></input>
     </div>
     <ul id="list"></ul>
   </section>

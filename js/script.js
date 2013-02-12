@@ -36,35 +36,41 @@ Item.prototype.toggleDone = function() {
   this.done = !this.done;
 }
 
-
-function removeFromList(i) {
-  var list = JSON.parse(localStorage.getItem("list"));
-  if(listSize - 1 < i || i < 0)
-    console.log("yo dood, that item doesn't exist...");
-  else {
-    listSize--;
-    var removed = list.splice(i, 1);
-    localStorage.setItem("list", JSON.stringify(list));
-    console.log("Removed \"" + removed + "\" from the list");
-    var uniqueishId = Date.now();
-    $('<div id=' + uniqueishId + '>item deleted</div>').hide().appendTo('#notifications').fadeIn();
-    setTimeout(
-      function(){
-        $('#' + uniqueishId).fadeOut();
-      }, 2000);
-    $('#list').empty();
-    populateList();
-  }
-  indicateStatus();
-}
-
 function getListMgr() {
   var parsed = JSON.parse(localStorage.getItem("lists"));
   parsed.__proto__ = ListMgr.prototype;
   return parsed;
 }
 
+function getList(index) {
+  var listMgr = getListMgr();
+  var list = listMgr.getList(index);
+  list.__proto__ = List.prototype;
+  return list;
+}
+
+function saveList(index, list) {
+  var listMgr = getListMgr();
+  listMgr.lists[index] = list;
+  saveLists(listMgr);
+}
+
+function getItem(listIndex, index) {
+  var list = getList(listIndex);
+  var item = list.getItem(index);
+  item.__proto__ = Item.prototype;
+  return item;
+}
+
+function addItem(listIndex, name) {
+  var list = getList(listIndex);
+  var item = new Item(name);
+  list.addItem(item);
+  saveList(listIndex, list);
+}
+
 function loadLists() {
+  $('#list').empty();
   var lists = localStorage.getItem("lists");
   if(lists === null) {
     var listMgr = new ListMgr();
@@ -120,35 +126,58 @@ function indicateStatus() {
 $(function(){
 
   $(document).bind('keyup', '/', function() {
-    $("#new_item").focus();
+    $(".add").focus();
   });
 
-  $('input#new_item').bind('keydown', 'esc', function() {
+  $('input.add').bind('keydown', 'esc', function() {
     this.blur();
   });
 
-  // populateList();
-
   loadLists();
+
+  $("#new_list").keypress(function(e){
+    $("#new_list").val();
+    if(e.which === 13 && $("#new_list").val().length > 0) {
+      if(listSize === 0)
+        $("#list").empty();
+
+      var list = $("#new_list").val();
+
+      $(".emptylist").remove();
+
+      $("<li>"
+        + list
+        + " <div class='listbuttons'>"
+        + " <a href='#' onclick='javascript:removeList(" + listsSize + ")'>delete</a>"
+        + " <div class='spacer'></div>"
+        + " <a  href='#' onclick='javascript:goToList(" + listsSize++ + ")'>></a>"
+        + "</div></li>").appendTo("#list");
+
+      addList(list);
+
+      $("#new_list").val("");
+
+      $("#new_list").blur();
+    }
+  })
 
   $("#new_item").keypress(function(e){
     $("#new_item").val();
     if(e.which === 13 && $("#new_item").val().length > 0) {
-      if(listSize === 0)
-        $("#list").empty();
-      indicateStatus();
-      var array = [];
-      var jsonparse = JSON.parse(localStorage.getItem("list"));
-      if( jsonparse != null)
-        array = jsonparse;
+
       var item = $("#new_item").val();
-      array.push(item);
 
-      localStorage.setItem("list", JSON.stringify(array));
+      $(".emptylist").remove();
 
-      console.log("Adding \"" + item + "\" to the list...");
+      $("<li>"
+        + item
+        + " <div class='listbuttons'>"
+        + " <a href='#' onclick='javascript:removeList(" + listsSize + ")'>delete</a>"
+        + " <div class='spacer'></div>"
+        + " <a  href='#' onclick='javascript:goToList(" + listsSize++ + ")'>></a>"
+        + "</div></li>").appendTo("#list");
 
-      $("<li>" + item + " <div class='listbuttons' href='#' onclick='javascript:removeFromList(" + listSize++ + ")'>delete</div></li>").appendTo("#list");
+      addItem($("#add-item-container").attr('data-list'), item);
 
       $("#new_item").val("");
 

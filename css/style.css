@@ -97,7 +97,7 @@ header {
 }
 
 /* add item */
-#add-item-container #new_item{
+#add-item-container .add, #add-list-container .add {
   width: 400px;
   border: 1px solid #ccc;
   height: 30px;
@@ -105,16 +105,20 @@ header {
   font-size: 16px;
 }
 
-#add-item-container #new_item:focus{
+#add-item-container .add:focus, #add-list-container .add:focus{
   outline-color: #ffb966;
 
 }
 
-#add-item-container {
+#add-item-container, #add-list-container {
   width: 400px;
   margin-left: -200px;
   position:fixed;
   left: 50%;
   z-index: 1000;
   top: 5.5em;
+}
+
+#add-item-container {
+  display: none;
 }
