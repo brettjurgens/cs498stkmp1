@@ -23,13 +23,20 @@ function List(name) {
 };
 
 List.prototype.addItem = function(item) {
-  this.items.push(item)
+  this.items.push(item);
 };
 
 List.prototype.removeItem = function(index) {
   this.items.splice(index, 1);
 };
 
+List.prototype.toggleItemDone = function(index) {
+  this.items[index].done = !this.items[index].done;
+}
+
+List.prototype.getItem = function(index) {
+  return this.items[index];
+}
 function Item(name, deadline) {
   this.name = name;
   this.done = false;
@@ -76,7 +83,7 @@ function addItem(listIndex, name) {
 
 function removeItem(listIndex, index) {
   var list = getList(listIndex);
-  list.removeItem(index);
+  list.toggleItemDone(index);
   saveList(listIndex, list);
   loadList(listIndex);
 }
@@ -130,6 +137,7 @@ function saveLists(listMgr) {
 
 function loadList(listIndex) {
   $('.back').fadeIn();
+  $('.delete').fadeIn();
   $('#list').empty();
   var list = getList(listIndex);
   if(list.items.length > 0)
@@ -170,11 +178,23 @@ function back() {
       $('#list').fadeIn(500);
     });
     $('.back').fadeOut(500);
+    $('.delete').fadeOut(500);
   }
   else
     console.log("can't back out of nothing!");
 }
 
+function emptyDone() {
+  var listIndex = $('#add-item-container').attr('data-list');
+  var listMgr = getListMgr();
+  var list = getList(listIndex);
+  $.each(list.items, function(i, s) {
+    if(s.done)
+      list.removeItem(i);
+  });
+  saveList(listIndex, list);
+  goToList(listIndex);
+}
 
 $(function(){
 
