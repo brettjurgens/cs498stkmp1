@@ -73,11 +73,18 @@ function loadLists() {
     // grab it again
     lists = localStorage.getItem("lists");
   }
+
   lists = JSON.parse(lists);
   var size = lists.lists.length;
   if(size > 0)
-    $.each(lists, function(i,s) {
-      $("<li>" + s + " <div class='deletebutton' href='#' onclick='javascript:removeList(" + i + ")'>delete</div></li>").appendTo("#list");
+    $.each(lists.lists, function(i,s) {
+      $("<li>"
+        + this.name
+        + " <div class='listbuttons'>"
+        + " <a href='#' onclick='javascript:removeList(" + i + ")'>delete</a>"
+        + " <div class='spacer'></div>"
+        + " <a  href='#' onclick='javascript:goToList(" + i + ")'>></a>"
+        + "</div></li>").appendTo("#list");
     });
 };
 
@@ -96,7 +103,7 @@ function populateList() {
   listSize = list.length;
   if(listSize > 0)
     $.each(list, function(i,s){
-      $("<li>" + s + " <div class='deletebutton' href='#' onclick='javascript:removeFromList(" + i + ")'>delete</div></li>").appendTo("#list");
+      $("<li>" + s + " <div class='listbuttons' href='#' onclick='javascript:removeFromList(" + i + ")'>delete</div></li>").appendTo("#list");
     });
   else
     $("<li class='emptylist'>You have no items (you should probably add some)</li>").appendTo("#list");
@@ -139,7 +146,7 @@ $(function(){
 
       console.log("Adding \"" + item + "\" to the list...");
 
-      $("<li>" + item + " <div class='deletebutton' href='#' onclick='javascript:removeFromList(" + listSize++ + ")'>delete</div></li>").appendTo("#list");
+      $("<li>" + item + " <div class='listbuttons' href='#' onclick='javascript:removeFromList(" + listSize++ + ")'>delete</div></li>").appendTo("#list");
 
       $("#new_item").val("");
 

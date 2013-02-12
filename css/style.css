@@ -80,10 +80,17 @@ header {
 #list li:last-child {
   border: 0;
 }
-.deletebutton {
+.listbuttons {
   display: inline;
   float: right;
+}
+.listbuttons > a{
   color: #999;
+  text-decoration: none;
+}
+.listbuttons .spacer {
+  width: 4px;
+  display: inline-block;
 }
 .emptylist {
   color: #666 !important;
