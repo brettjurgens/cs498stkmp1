@@ -74,6 +74,14 @@ function addItem(listIndex, name) {
   saveList(listIndex, list);
 }
 
+function removeItem(listIndex, index) {
+  var list = getList(listIndex);
+  list.removeItem(index);
+  saveList(listIndex, list);
+  loadList(listIndex);
+}
+
+
 function loadLists() {
   $('#list').empty();
   var lists = localStorage.getItem("lists");
