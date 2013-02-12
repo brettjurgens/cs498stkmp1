@@ -127,7 +127,9 @@ $(function(){
     this.blur();
   });
 
-  populateList();
+  // populateList();
+
+  loadLists();
 
   $("#new_item").keypress(function(e){
     $("#new_item").val();
