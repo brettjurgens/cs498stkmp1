@@ -16,6 +16,14 @@ function list() {
   this.items = [];
 };
 
+list.prototype.addItem = function(item) {
+  this.items.push(item)
+};
+
+list.prototype.removeItem = function(index) {
+  this.items.splice(index, 1);
+};
+
 function item(name, deadline) {
   this.name = name;
   this.done = false;
