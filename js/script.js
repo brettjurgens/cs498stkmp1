@@ -59,7 +59,9 @@ function removeFromList(i) {
 }
 
 function getListMgr() {
-  return JSON.parse(localStorage.getItem("lists"));
+  var parsed = JSON.parse(localStorage.getItem("lists"));
+  parsed.__proto__ = ListMgr.prototype;
+  return parsed;
 }
 
 function loadLists() {
