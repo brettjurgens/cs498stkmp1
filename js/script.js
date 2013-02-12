@@ -1,5 +1,29 @@
 var listSize;
 
+function listMGR() {
+  this.lists = [];
+};
+
+listMgr.prototype.addList = function(list) {
+  this.lists.push(list);
+};
+
+listMgr.prototype.removeList = function(index) {
+  this.lists.splice(index, 1);
+};
+
+function list() {
+  this.items = [];
+};
+
+function item(name, deadline) {
+  this.name = name;
+  this.done = false;
+
+  // if deadline is specified, use it. otherwise it should be null.
+  this.deadline = (typeof deadline === "undefined") ? null : deadline;
+}
+
 $(function(){
 
   $(document).bind('keyup', '/', function() {
@@ -107,4 +131,3 @@ function clickrecall(thisfield, defaulttext, color) {
     thisfield.style.color = "#" + color;
   }
 }
-
