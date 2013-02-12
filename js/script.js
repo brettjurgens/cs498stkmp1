@@ -1,4 +1,5 @@
 var listSize;
+var listsSize;
 
 function ListMgr() {
   this.lists = [];
@@ -11,6 +12,10 @@ ListMgr.prototype.addList = function(list) {
 ListMgr.prototype.removeList = function(index) {
   this.lists.splice(index, 1);
 };
+
+ListMgr.prototype.getList = function(index) {
+  return this.lists[index];
+}
 
 function List(name) {
   this.name = name;
@@ -81,8 +86,8 @@ function loadLists() {
   }
 
   lists = JSON.parse(lists);
-  var size = lists.lists.length;
-  if(size > 0)
+  listsSize = lists.lists.length;
+  if(listsSize > 0)
     $.each(lists.lists, function(i,s) {
       $("<li>"
         + this.name
@@ -92,17 +97,48 @@ function loadLists() {
         + " <a  href='#' onclick='javascript:goToList(" + i + ")'>></a>"
         + "</div></li>").appendTo("#list");
     });
+  else
+    $("<li class='emptylist'>You have no lists (you should probably add some)</li>").appendTo("#list");
 };
 
 function removeList(i) {
   var listMgr = getListMgr();
   listMgr.removeList(i);
   saveLists(listMgr);
+  loadLists();
+};
+
+function addList(name) {
+  var listMgr = getListMgr();
+  var list = new List(name);
+  listMgr.addList(list);
+  saveLists(listMgr);
 };
 
 function saveLists(listMgr) {
+  indicateStatus();
   localStorage.setItem("lists", JSON.stringify(listMgr));
 };
+
+function goToList(listIndex) {
+  $('#add-list-container').fadeOut(500);
+  $('#add-item-container').fadeIn(500);
+  $('#add-item-container').attr('data-list', listIndex)
+  var list = getList(listIndex);
+  $('#list').empty();
+  if(list.items.length > 0)
+    $.each(list.items, function(i,s) {
+      $("<li>"
+        + this.name
+        + " <div class='listbuttons'>"
+        + " <a href='#' onclick='javascript:removeListItem(" + listIndex + ", " + i + ")'>delete</a>"
+        + " <div class='spacer'></div>"
+        + " <a  href='#' onclick='javascript:removeItem(" + listIndex + ", " + i + ")'>></a>"
+        + "</div></li>").appendTo("#list");
+    })
+  else
+    $("<li class='emptylist'>You have no items (you should probably add some)</li>").appendTo("#list");
+}
 
 function populateList() {
   var list = JSON.parse(localStorage.getItem("list"));
@@ -184,6 +220,7 @@ $(function(){
       $("#new_item").blur();
     }
   })
+
 
   $('.oranger').animate({color: '#f7931d'}, 1000);
 
