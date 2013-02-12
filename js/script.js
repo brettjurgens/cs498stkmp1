@@ -83,7 +83,8 @@ function loadLists() {
 
 function removeList(i) {
   var listMgr = getListMgr();
-  listMgr.list[i].removeItem();
+  listMgr.removeList(i);
+  saveLists(listMgr);
 };
 
 function saveLists(listMgr) {
