@@ -1,6 +1,6 @@
 var listSize;
 
-function listMGR() {
+function listMgr() {
   this.lists = [];
 };
 
