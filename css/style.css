@@ -48,6 +48,16 @@ header {
   border: 1px solid #ccc;
   box-shadow: 0 3px 6px -2px #ddd;
 }
+.back {
+  display: none;
+  font-size: 12px;
+  position: relative;
+  left: 40px;
+  top: 38px;
+  z-index: 999999;
+  background: transparent;
+  text-align: left;
+}
 #notifications {
   height: 1.5em;
   position: fixed;
@@ -79,6 +89,10 @@ header {
 }
 #list li:last-child {
   border: 0;
+}
+#list a {
+  color: #444;
+  text-decoration: none;
 }
 .listbuttons {
   display: inline;

@@ -120,49 +120,62 @@ function saveLists(listMgr) {
   localStorage.setItem("lists", JSON.stringify(listMgr));
 };
 
-function goToList(listIndex) {
-  $('#add-list-container').fadeOut(500);
-  $('#add-item-container').fadeIn(500);
-  $('#add-item-container').attr('data-list', listIndex)
-  var list = getList(listIndex);
+function loadList(listIndex) {
+  $('.back').fadeIn();
   $('#list').empty();
+  var list = getList(listIndex);
   if(list.items.length > 0)
     $.each(list.items, function(i,s) {
       $("<li>"
         + this.name
         + " <div class='listbuttons'>"
-        + " <a href='#' onclick='javascript:removeListItem(" + listIndex + ", " + i + ")'>delete</a>"
+        + " <a href='#' onclick='javascript:removeItem(" + listIndex + ", " + i + ")'>delete</a>"
         + " <div class='spacer'></div>"
-        + " <a  href='#' onclick='javascript:removeItem(" + listIndex + ", " + i + ")'>></a>"
+        + " <a  href='#' onclick='javascript:markAsDone(" + listIndex + ", " + i + ")'>></a>"
         + "</div></li>").appendTo("#list");
     })
   else
     $("<li class='emptylist'>You have no items (you should probably add some)</li>").appendTo("#list");
 }
-
-function populateList() {
-  var list = JSON.parse(localStorage.getItem("list"));
-  listSize = list.length;
-  if(listSize > 0)
-    $.each(list, function(i,s){
-      $("<li>" + s + " <div class='listbuttons' href='#' onclick='javascript:removeFromList(" + i + ")'>delete</div></li>").appendTo("#list");
-    });
-  else
-    $("<li class='emptylist'>You have no items (you should probably add some)</li>").appendTo("#list");
+function goToList(listIndex) {
+  $('#add-list-container').fadeOut(500);
+  $('#add-item-container').fadeIn(500);
+  $('#add-item-container').attr('data-list', listIndex)
+  $('#list').fadeOut(500, function() {
+    loadList(listIndex);
+    $('#list').fadeIn(500);
+  });
 }
-
 
 function indicateStatus() {
   $('.oranger').animate({color: '#666'}, 50);
   $('.oranger').animate({color: '#f7931d'}, 100);
 }
 
+function back() {
+  if($('#add-list-container').css('display') === "none") {
+    $('#add-item-container').fadeOut(500);
+    $('#add-list-container').fadeIn(500);
+    $('#add-item-container').attr('data-list', '-1');
+    $('#list').fadeOut(500, function() {
+      loadLists();
+      $('#list').fadeIn(500);
+    });
+    $('.back').fadeOut(500);
+  }
+  else
+    console.log("can't back out of nothing!");
+}
 
 
 $(function(){
 
   $(document).bind('keyup', '/', function() {
     $(".add").focus();
+  });
+
+  $(document).bind('keyup', 'backspace', function() {
+    back();
   });
 
   $('input.add').bind('keydown', 'esc', function() {
