@@ -33,6 +33,34 @@ function Item(name, deadline) {
   this.deadline = (typeof deadline === "undefined") ? null : deadline;
 }
 
+function removeList(i) {
+  var listMgr = getListMgr();
+  listMgr.list[i].removeItem();
+};
+
+function saveLists(listMgr) {
+  localStorage.setItem("lists", JSON.stringify(listMgr));
+};
+
+function populateList() {
+  var list = JSON.parse(localStorage.getItem("list"));
+  listSize = list.length;
+  if(listSize > 0)
+    $.each(list, function(i,s){
+      $("<li>" + s + " <div class='deletebutton' href='#' onclick='javascript:removeFromList(" + i + ")'>delete</div></li>").appendTo("#list");
+    });
+  else
+    $("<li class='emptylist'>You have no items (you should probably add some)</li>").appendTo("#list");
+}
+
+
+function indicateStatus() {
+  $('.oranger').animate({color: '#666'}, 50);
+  $('.oranger').animate({color: '#f7931d'}, 100);
+}
+
+
+
 $(function(){
 
   $(document).bind('keyup', '/', function() {
@@ -73,45 +101,6 @@ $(function(){
   $('.oranger').animate({color: '#f7931d'}, 1000);
 
 })
-
-function removeFromList(i) {
-  var list = JSON.parse(localStorage.getItem("list"));
-  if(listSize - 1 < i || i < 0)
-    console.log("yo dood, that item doesn't exist...");
-  else {
-    listSize--;
-    var removed = list.splice(i, 1);
-    localStorage.setItem("list", JSON.stringify(list));
-    console.log("Removed \"" + removed + "\" from the list");
-    var uniqueishId = Date.now();
-    $('<div id=' + uniqueishId + '>item deleted</div>').hide().appendTo('#notifications').fadeIn();
-    setTimeout(
-      function(){
-        $('#' + uniqueishId).fadeOut();
-      }, 2000);
-    $('#list').empty();
-    populateList();
-  }
-  indicateStatus();
-}
-
-function populateList() {
-  var list = JSON.parse(localStorage.getItem("list"));
-  listSize = list.length;
-  if(listSize > 0)
-    $.each(list, function(i,s){
-      $("<li>" + s + " <div class='deletebutton' href='#' onclick='javascript:removeFromList(" + i + ")'>delete</div></li>").appendTo("#list");
-    });
-  else
-    $("<li class='emptylist'>You have no items (you should probably add some)</li>").appendTo("#list");
-}
-
-
-function indicateStatus() {
-  $('.oranger').animate({color: '#666'}, 50);
-  $('.oranger').animate({color: '#f7931d'}, 100);
-}
-
 
 /* 
   Functions for the text input.
