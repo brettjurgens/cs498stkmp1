@@ -110,6 +110,18 @@ header {
   color: #444;
   border-bottom: 1px solid #eee;
 }
+#list li.list-title {
+  font-weight: 500;
+  text-transform: capitalize;
+}
+#list li.list-title .export {
+  text-transform: none;
+}
+#list li.list-title .listbuttons {
+  font-weight: 300;
+  /*text-transform: none;*/
+  font-size: 12px;
+}
 #list li:last-child {
   border: 0;
 }

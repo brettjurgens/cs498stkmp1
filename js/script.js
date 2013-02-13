@@ -178,11 +178,59 @@ function setDeadline(listIndex, index) {
   closeModal();
 };
 
+function sortAlphabetical() {
+  var items = $('.listItem');
+  items.fadeOut(500, function(){
+    items.sort(function(a,b){
+      return $(a).attr('data-name').toUpperCase().localeCompare($(b).attr('data-name').toUpperCase());
+    });
+    $.each(items, function(i,s) {
+      $('#list').append(s);
+    });    
+    items.fadeIn(500);
+  });
+};
+
+function sortDeadlines(sortPref) {
+  var items = [];
+  items = $('.has-date');
+  $('.listItem').fadeOut(500, function(){
+    items.sort(function(a,b){
+      return $(a).attr('data-date').localeCompare($(b).attr('data-date'));
+    });
+    if(sortPref === "desc") {
+      for(var i = items.length - 1; i >= 0; i--)
+        $('#list').append(items[i]);
+    }
+    else {
+      for(var i=0; i < items.length; i++)
+        $('#list').append(items[i]);
+    }
+    $('.listItem').fadeIn(500);
+  });
+};
+
+function exportList() {
+  $('#export-content').empty();
+  var listIndex = $('#add-item-container').attr('data-list');
+  list = getList(listIndex);
+  $('#export-content').text(JSON.stringify(list));
+  $('#export').fadeIn();
+}
+
 function loadList(listIndex) {
   $('.back').fadeIn();
   $('.delete').fadeIn();
   $('#list').empty();
   var list = getList(listIndex);
+  $("<li class='list-title'>" + list.name 
+    + " <a class='export' onclick='javascript:exportList();'>(export)</a>"
+    + "<div class='listbuttons'>"
+    + "Sort: "
+    + "<a onclick='javascript:sortAlphabetical();'>A-Z</a>  |  "
+    + "<a onclick='javascript:sortDeadlines(\"asc\");'>ASC Deadline</a> | "
+    + "<a onclick='javascript:sortDeadlines(\"desc\");'>DESC Deadline</a>"
+    + "</div></li>").appendTo("#list");
   if(list.items.length > 0)
     $.each(list.items, function(i,s) {
       var itemClass = "";
