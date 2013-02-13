@@ -240,4 +240,17 @@ header {
   border: 1px solid #62c462;
 }
 
+/* Export */
+#export {
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  padding: 10px 20px 15px;
+  width: 570px;
+  margin: 1em auto 0;
+  display:none;
+  font-size: 14px;
+}
+#export-content {
+  margin-top: -5px;
+  color: #666;
 }
