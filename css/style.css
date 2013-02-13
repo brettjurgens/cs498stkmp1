@@ -15,14 +15,14 @@ header {
   position: fixed;
   height: 2.4em;
   width: 100%;
-  z-index: 999;
+  z-index: 400;
   padding-top: .5em;
   top: 0;
   background-color: white;
 }
 
 #logo {
-  z-index: 1000;
+  z-index: 500;
   position: fixed;
   width: 200px;
   left: 50%;
@@ -54,7 +54,7 @@ header {
   position: relative;
   left: 40px;
   top: 38px;
-  z-index: 999999;
+  z-index: 500;
   background: transparent;
   text-align: left;
 }
@@ -74,7 +74,7 @@ header {
   position: relative;
   right: 37px;
   top: 28px;
-  z-index: 999999;
+  z-index: 500;
   background: transparent;
   text-align: right;
   float: right;
@@ -84,7 +84,7 @@ header {
 #notifications {
   height: 1.5em;
   position: fixed;
-  z-index: 1000;
+  z-index: 500;
   top: 20px;
   right: 40px;
   font-size: 12px;
@@ -117,15 +117,22 @@ header {
   color: #444;
   text-decoration: none;
 }
-#list .done {
+#list .done a {
   color: #ccc;
 }
 #list .done .listbuttons a {
   color: #52D017;
 }
+#list a.deadline-passed {
+  color: #c53d3d;
+}
 .listbuttons {
   display: inline;
   float: right;
+}
+.listbuttons .setdeadlinetext {
+  font-size: 12px;
+  margin-right: 5px;
 }
 .listbuttons > a{
   color: #999;
@@ -158,10 +165,67 @@ header {
   margin-left: -200px;
   position:fixed;
   left: 50%;
-  z-index: 1000;
+  z-index: 600;
   top: 5.5em;
 }
 
 #add-item-container {
   display: none;
+}
+
+/* modal */
+.modal-backdrop {
+  background-color: white;
+  opacity: 0.8;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  z-index: 900;
+  display: none;
+  top: 0;
+  left: 0;
+}
+.body-modal {
+  overflow: hidden;
+}
+.modal {
+  width: 320px;
+  margin-left: -170px;
+  position: absolute;
+  padding: 15px 20px;
+  top: 15%;
+  left: 50%;
+  height: 70px;
+  background-color: white;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  z-index: 999;
+}
+.item-name, .export-title {
+  width: 100%;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 3px;
+  margin-bottom: 15px;
+  font-size: 20px;
+  color: #666;
+}
+.deadline-title {
+  font-size: 14px;
+  display: inline;
+}
+.deadline-select {
+  display: inline;
+  margin-left: 5px;
+}
+.deadline-enter {
+  float: right;
+  padding: 4px 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  margin-top: -2px;
+  background: linear-gradient(to bottom, #62c462, #51a351);
+  color: white;
+  border: 1px solid #62c462;
+}
+
 }

@@ -41,6 +41,10 @@ List.prototype.getItem = function(index) {
   return this.items[index];
 };
 
+List.prototype.setDeadline = function(index, deadline) {
+  this.items[index].deadline = deadline;
+}
+
 function Item(name, deadline) {
   this.name = name;
   this.done = false;
@@ -141,6 +145,39 @@ function saveLists(listMgr) {
   localStorage.setItem("lists", JSON.stringify(listMgr));
 };
 
+function modal(listIndex, index) {
+  $('.modal-backdrop').fadeIn();
+  $('body').addClass('bodyModal');
+  $('<div class="modal"></div>').hide().appendTo('body');
+
+  item = getItem(listIndex, index);
+
+  $('<div class="item-name">' + item.name + '</div>').appendTo('.modal');
+  $('<div class="deadline-title">Set Deadline</div>').appendTo('.modal');
+  $('<div class="deadline-select"></div>').appendTo('.modal');
+  $('<input type="text" id="datapicker" />').datepicker().appendTo('.deadline-select');
+  $('<div class="deadline-enter" onclick="setDeadline(' + listIndex + ', ' + index + ')">Set</div>').appendTo('.modal');
+
+  $('.modal').fadeIn();
+};
+
+function closeModal() {
+  $('.modal-backdrop').fadeOut();
+  $('.modal').remove();
+  $('body').removeClass('bodyModal');
+};
+
+function setDeadline(listIndex, index) {
+  var list = getList(listIndex);
+  var deadline = new Date($('#datapicker').val());
+
+  list.setDeadline(index, deadline);
+  saveList(listIndex, list);
+  loadList(listIndex);
+
+  closeModal();
+};
+
 function loadList(listIndex) {
   $('.back').fadeIn();
   $('.delete').fadeIn();
@@ -151,11 +188,27 @@ function loadList(listIndex) {
       var itemClass = "";
       if(s.done)
         itemClass = "done";
-      $("<li id='l" + listIndex + "i" + i + "' class='" + itemClass + "'>"
+      var deadline = "set deadline";
+      var dead = null;
+      if(s.deadline !== null) {
+        dead = new Date(s.deadline);
+        deadline = moment(s.deadline).fromNow();
+      }
+      $("<li id='l" + listIndex + "i" + i + "' class='" + itemClass + " listItem'>"
+        + "<a href='#' onclick='javascript:modal(" + listIndex + ", " + i + ")'>"
         + this.name
+        + "</a>"
         + " <div class='listbuttons'>"
+        + " <a id='deadline" + i + "' class='setdeadlinetext' href='#' onclick='javascript:modal(" + listIndex + ", " + i + ")'>" + deadline + "</a>"
         + " <a href='#' onclick='javascript:markAsDone(" + listIndex + ", " + i + ")'>&#x2713;</a>"
         + "</div></li>").appendTo("#list");
+      if(s.deadline !== null) {
+        var now = new Date();
+        if(now > dead)
+          $('#deadline' + i).addClass('deadline-passed');
+        $('#l' + listIndex + 'i' + i).attr('data-date', dead.toISOString()).addClass('has-date');
+      }
+      $('#l' + listIndex + 'i' + i).attr('data-name', this.name);
     })
   else
     $("<li class='emptylist'>You have no items (you should probably add some)</li>").appendTo("#list");
@@ -223,6 +276,11 @@ $(function(){
     this.blur();
   });
 
+  $(document).bind('keydown', 'esc', function() {
+    closeModal();
+  });
+
+
   loadLists();
 
   $("#new_list").keypress(function(e){
@@ -261,9 +319,12 @@ $(function(){
 
       var listIndex = $("#add-item-container").attr('data-list');
       var itemIndex = addItem(listIndex, item);
-      $("<li>"
+      $("<li id='l" + listIndex + "i" + itemIndex + "' class='listItem'>"
+        + "<a href='#' onclick='javascript:modal(" + listIndex + ", " + itemIndex + ")'>"
         + item
+        + "</a>"
         + " <div class='listbuttons'>"
+        + " <a id='deadline" + itemIndex + "' class='setdeadlinetext' href='#' onclick='javascript:modal(" + listIndex + ", " + itemIndex + ")'>set deadline</a>"
         + " <a href='#' onclick='javascript:markAsDone(" + listIndex + ", " + itemIndex + ")'>&#x2713;</a>"
         + "</div></li>").appendTo("#list");
 
