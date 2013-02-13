@@ -197,10 +197,12 @@ function emptyDone() {
   var listMgr = getListMgr();
   var list = getList(listIndex);
 
+  var offset = 0;
   $('.done').each(function(){
     var id = $(this).attr('id');
-    id = id.replace('l' + listIndex + 'i');
-    list.removeItem(id);
+
+    // offset needed because array index changes :(
+    list.removeItem(id - offset++);
   });
 
   saveList(listIndex, list);
