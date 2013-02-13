@@ -4,11 +4,20 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
   <script src="http://www.bitstorm.org/jquery/color-animation/jquery.animate-colors-min.js"></script>
   <script src="https://raw.github.com/jeresig/jquery.hotkeys/master/jquery.hotkeys.js"></script>
+
+  <!-- jQueryUI -->
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" />
+  <script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
+  <!-- end jQueryUI -->
+  
+  <script src="https://raw.github.com/timrwood/moment/2.0.0/min/moment.min.js"></script>
+
   <script src="js/script.js"></script>
   <link rel="stylesheet" type="text/css" href="css/style.css">
   <title>listr</title>
 </head>
 <body>
+  <div class="modal-backdrop"></div>
   <header>
     <div id="logo">list<span class="oranger">r</span></div>
     <div id="list-top"><div class="back" onclick="javascript:back();"></div><div class="delete" onclick="javascript:emptyDone();">x</div></div>
