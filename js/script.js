@@ -114,13 +114,13 @@ function loadLists() {
   listsSize = lists.lists.length;
   if(listsSize > 0)
     $.each(lists.lists, function(i,s) {
-      $("<a  href='#' onclick='javascript:goToList(" + i + ")'><li>"
+      $("<li><a href='#' onclick='javascript:goToList(" + i + ")'>"
         + this.name
-        + " <div class='listbuttons'>"
+        + "</a> <div class='listbuttons'>"
         + " <a href='#' onclick='javascript:removeList(" + i + ")'>x</a>"
         + " <div class='spacer'></div>"
         // + " <a  href='#' onclick='javascript:goToList(" + i + ")'>></a>"
-        + "</div></li></a>").appendTo("#list");
+        + "</div></li>").appendTo("#list");
     });
   else
     $("<li class='emptylist'>You have no lists (you should probably add some)</li>").appendTo("#list");
@@ -278,6 +278,7 @@ function indicateStatus() {
 };
 
 function back() {
+  $('#export').fadeOut();
   if($('#add-list-container').css('display') === "none") {
     $('#add-item-container').fadeOut(500);
     $('#add-list-container').fadeIn(500);
@@ -299,12 +300,19 @@ function emptyDone() {
   var list = getList(listIndex);
 
   var offset = 0;
+  var remove = [];
   $('.done').each(function(){
-    var id = $(this).attr('id');
+    var id = $(this).attr('id').replace('l' + listIndex + 'i', '');
 
-    // offset needed because array index changes :(
-    list.removeItem(id - offset++);
+    // array indices change, so we have to work around this
+    remove.push(id);
   });
+
+  remove.sort();
+
+  for (var i = remove.length - 1; i >= 0 ; i--) {
+    list.removeItem(remove[i]);
+  };
 
   saveList(listIndex, list);
   goToList(listIndex);
