@@ -250,6 +250,10 @@ header {
   display:none;
   font-size: 14px;
 }
+#list li.list-title .export {
+  font-weight: 400;
+  font-size: 13px;
+}
 #export-content {
   margin-top: -5px;
   color: #666;

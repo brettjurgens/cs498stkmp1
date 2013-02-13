@@ -224,7 +224,7 @@ function loadList(listIndex) {
   $('#list').empty();
   var list = getList(listIndex);
   $("<li class='list-title'>" + list.name 
-    + " <a class='export' onclick='javascript:exportList();'>(export)</a>"
+    + " <a class='export' onclick='javascript:exportList();'>[export]</a>"
     + "<div class='listbuttons'>"
     + "Sort: "
     + "<a onclick='javascript:sortAlphabetical();'>A-Z</a>  |  "
