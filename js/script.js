@@ -15,7 +15,7 @@ ListMgr.prototype.removeList = function(index) {
 
 ListMgr.prototype.getList = function(index) {
   return this.lists[index];
-}
+};
 
 function List(name) {
   this.name = name;
@@ -24,6 +24,9 @@ function List(name) {
 
 List.prototype.addItem = function(item) {
   this.items.push(item);
+
+  // return the index of the item
+  return this.items.length - 1;
 };
 
 List.prototype.removeItem = function(index) {
@@ -32,62 +35,65 @@ List.prototype.removeItem = function(index) {
 
 List.prototype.toggleItemDone = function(index) {
   this.items[index].done = !this.items[index].done;
-}
+};
 
 List.prototype.getItem = function(index) {
   return this.items[index];
-}
+};
+
 function Item(name, deadline) {
   this.name = name;
   this.done = false;
 
   // if deadline is specified, use it. otherwise it should be null.
   this.deadline = (typeof deadline === "undefined") ? null : deadline;
-}
+};
+
 Item.prototype.toggleDone = function() {
   this.done = !this.done;
-}
+};
 
 function getListMgr() {
   var parsed = JSON.parse(localStorage.getItem("lists"));
   parsed.__proto__ = ListMgr.prototype;
   return parsed;
-}
+};
 
 function getList(index) {
   var listMgr = getListMgr();
   var list = listMgr.getList(index);
   list.__proto__ = List.prototype;
   return list;
-}
+};
 
 function saveList(index, list) {
   var listMgr = getListMgr();
   listMgr.lists[index] = list;
   saveLists(listMgr);
-}
+};
 
 function getItem(listIndex, index) {
   var list = getList(listIndex);
   var item = list.getItem(index);
   item.__proto__ = Item.prototype;
   return item;
-}
+};
 
 function addItem(listIndex, name) {
   var list = getList(listIndex);
   var item = new Item(name);
-  list.addItem(item);
+  var index = list.addItem(item);
   saveList(listIndex, list);
-}
+  return index;
+};
 
-function removeItem(listIndex, index) {
+function markAsDone(listIndex, index) {
+  $('#l' + listIndex + 'i' + index).toggleClass("done");
   var list = getList(listIndex);
   list.toggleItemDone(index);
   saveList(listIndex, list);
   loadList(listIndex);
-}
-
+};
 
 function loadLists() {
   $('#list').empty();
@@ -107,9 +113,9 @@ function loadLists() {
       $("<a  href='#' onclick='javascript:goToList(" + i + ")'><li>"
         + this.name
         + " <div class='listbuttons'>"
-        + " <a href='#' onclick='javascript:removeList(" + i + ")'>delete</a>"
+        + " <a href='#' onclick='javascript:removeList(" + i + ")'>x</a>"
         + " <div class='spacer'></div>"
-        + " <a  href='#' onclick='javascript:goToList(" + i + ")'>></a>"
+        // + " <a  href='#' onclick='javascript:goToList(" + i + ")'>></a>"
         + "</div></li></a>").appendTo("#list");
     });
   else
@@ -142,17 +148,19 @@ function loadList(listIndex) {
   var list = getList(listIndex);
   if(list.items.length > 0)
     $.each(list.items, function(i,s) {
-      $("<li>"
+      var itemClass = "";
+      if(s.done)
+        itemClass = "done";
+      $("<li id='l" + listIndex + "i" + i + "' class='" + itemClass + "'>"
         + this.name
         + " <div class='listbuttons'>"
-        + " <a href='#' onclick='javascript:removeItem(" + listIndex + ", " + i + ")'>delete</a>"
-        + " <div class='spacer'></div>"
-        + " <a  href='#' onclick='javascript:markAsDone(" + listIndex + ", " + i + ")'>></a>"
+        + " <a href='#' onclick='javascript:markAsDone(" + listIndex + ", " + i + ")'>&#x2713;</a>"
         + "</div></li>").appendTo("#list");
     })
   else
     $("<li class='emptylist'>You have no items (you should probably add some)</li>").appendTo("#list");
-}
+};
+
 function goToList(listIndex) {
   $('#add-list-container').fadeOut(500);
   $('#add-item-container').fadeIn(500);
@@ -161,12 +169,12 @@ function goToList(listIndex) {
     loadList(listIndex);
     $('#list').fadeIn(500);
   });
-}
+};
 
 function indicateStatus() {
   $('.oranger').animate({color: '#666'}, 50);
   $('.oranger').animate({color: '#f7931d'}, 100);
-}
+};
 
 function back() {
   if($('#add-list-container').css('display') === "none") {
@@ -182,19 +190,22 @@ function back() {
   }
   else
     console.log("can't back out of nothing!");
-}
+};
 
 function emptyDone() {
   var listIndex = $('#add-item-container').attr('data-list');
   var listMgr = getListMgr();
   var list = getList(listIndex);
-  $.each(list.items, function(i, s) {
-    if(s.done)
-      list.removeItem(i);
+
+  $('.done').each(function(){
+    var id = $(this).attr('id');
+    id = id.replace('l' + listIndex + 'i');
+    list.removeItem(id);
   });
+
   saveList(listIndex, list);
   goToList(listIndex);
-}
+};
 
 $(function(){
 
@@ -222,12 +233,12 @@ $(function(){
 
       $(".emptylist").remove();
 
-      $("<a href='#' onclick='javascript:goToList(" + listsSize++ + ")'><li>"
+      $("<a href='#' onclick='javascript:goToList(" + listsSize + ")'><li>"
         + list
         + " <div class='listbuttons'>"
-        + " <a href='#' onclick='javascript:removeList(" + listsSize + ")'>delete</a>"
+        + " <a href='#' onclick='javascript:removeList(" + listsSize + ")'>x</a>"
         + " <div class='spacer'></div>"
-        + " <a href='#' onclick='javascript:goToList(" + listsSize++ + ")'>></a>"
+        // + " <a href='#' onclick='javascript:goToList(" + listsSize++ + ")'>></a>"
         + "</div></li></a>").appendTo("#list");
 
       addList(list);
@@ -246,15 +257,13 @@ $(function(){
 
       $(".emptylist").remove();
 
+      var listIndex = $("#add-item-container").attr('data-list');
+      var itemIndex = addItem(listIndex, item);
       $("<li>"
         + item
         + " <div class='listbuttons'>"
-        + " <a href='#' onclick='javascript:removeList(" + listsSize + ")'>delete</a>"
-        + " <div class='spacer'></div>"
-        + " <a  href='#' onclick='javascript:goToList(" + listsSize++ + ")'>></a>"
+        + " <a href='#' onclick='javascript:markAsDone(" + listIndex + ", " + itemIndex + ")'>&#x2713;</a>"
         + "</div></li>").appendTo("#list");
-
-      addItem($("#add-item-container").attr('data-list'), item);
 
       $("#new_item").val("");
 

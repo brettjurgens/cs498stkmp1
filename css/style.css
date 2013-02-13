@@ -117,6 +117,12 @@ header {
   color: #444;
   text-decoration: none;
 }
+#list .done {
+  color: #ccc;
+}
+#list .done .listbuttons a {
+  color: #52D017;
+}
 .listbuttons {
   display: inline;
   float: right;
