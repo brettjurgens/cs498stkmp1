@@ -1,3 +1,21 @@
+listr
+=====
+listr was my first MP (Machine Problem) for CS498stk at The University of Illinois. The specifications can be found [here](https://wiki.engr.illinois.edu/display/cs498stk/mp1).
+
+listr uses HTML5 Local Storage to store multiple lists of text items. You can assign deadlines, sort and export (to JSON) such lists.
+
+
+Keyboard Shortcuts
+------------------
+
+`/` go to entry bar
+`backspace` go back
+`esc` exit entry bar or close modal
+
+
+MP Report
+=========
+
 name: Brett Jurgens
 
 netid: bjurgen2
