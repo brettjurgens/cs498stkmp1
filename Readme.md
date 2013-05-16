@@ -9,7 +9,9 @@ Keyboard Shortcuts
 ------------------
 
 `/` go to entry bar
+
 `backspace` go back
+
 `esc` exit entry bar or close modal
 
 
